@@ -10,3 +10,25 @@
 - Unix compatible
 - Direct Hardware Access through the SecureEnclave
 - Code execution protection at Runtime
+
+
+## Non destructive
+
+- Updates are automatic
+- Updates notes 
+
+
+## Plugins
+
+- WEBGL Programming / Shader
+- Video Cards Support for 144Fps gaming (nVidia 10series / Vega)
+- Vulcan API
+
+
+
+## Free for life
+
+- Donate if you want
+- Or just it use at will
+
+
