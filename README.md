@@ -4,7 +4,6 @@
 ## WIP
 
 - Using `Rust` as System Language
-- `nasm multiboot_h.asm boot.asm`
 - Build native apps using PWA concepts
 - Hyper performant
 - Unix compatible
@@ -15,7 +14,7 @@
 ## Non destructive
 
 - Updates are automatic
-- Updates notes 
+- Updates notes
 
 
 ## Plugins
@@ -32,3 +31,9 @@
 - Or just it use at will
 
 
+
+## Commands
+
+- `nasm multiboot_h.asm boot.asm`
+- `chmod +x script.sh && ./script.sh`
+- `$HOME/opt/bin/x86_64-pc-elf-ld --nmagic --output=kernel.bin --script=linker.ld multiboot_h.o boot.o`
