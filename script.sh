@@ -21,7 +21,7 @@ if ! $CONTINUE; then
   exit
 fi
 
-# check if `brew` is installed
+# # check if `brew` is installed
 command -v brew >/dev/null 2>&1 || { echo >&2 "It seems you do not have \`brew\` installed. Head on over to http://brew.sh/ to install it."; exit 1; }
 
 export PREFIX="$HOME/opt/"
@@ -31,50 +31,50 @@ export PATH="$PREFIX/bin:$PATH"
 mkdir -p "$HOME/src"
 mkdir -p "$PREFIX"
 
-# gmp mpfr libmpc
-# brew install gmp mpfr libmpc autoconf automake nasm xorriso qemu
-
-# binutils
-
+# # gmp mpfr libmpc
+# # brew install gmp mpfr libmpc autoconf automake nasm xorriso qemu
+#
+# # binutils
+#
+# cd "$HOME/src"
+#
+# if [ ! -d "binutils-2.25" ]; then
+#   echo ""
+#   echo "Installing \`binutils\`"
+#   echo ""
+#   curl http://ftp.gnu.org/gnu/binutils/binutils-2.25.tar.gz > binutils-2.25.tar.gz
+#   tar xfz binutils-2.25.tar.gz
+#   rm binutils-2.25.tar.gz
+#   mkdir -p build-binutils
+#   cd build-binutils
+#   ../binutils-2.25/configure --target=$TARGET --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror
+#   make
+#   make install
+# fi
+#
+# # gcc
+# cd "$HOME/src"
+#
+# if [ ! -d "gcc-5.3.0" ]; then
+#   echo ""
+#   echo "Installing \`gcc\`"
+#   echo ""
+#   curl -L http://ftpmirror.gnu.org/gcc/gcc-5.3.0/gcc-5.3.0.tar.bz2 > gcc-5.3.0.tar.bz2
+#   tar jxf gcc-5.3.0.tar.bz2
+#   rm gcc-5.3.0.tar.bz2
+#   mkdir -p build-gcc
+#   cd build-gcc
+#   ../gcc-5.3.0/configure --target="$TARGET" --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers --with-gmp="$(brew --prefix gmp)" --with-mpfr="$(brew --prefix mpfr)" --with-mpc="$(brew --prefix libmpc)"
+#   make all-gcc
+#   make all-target-libgcc
+#   make install-gcc
+#   make install-target-libgcc
+# fi
+#
+# # objconv
+#
 cd "$HOME/src"
-
-if [ ! -d "binutils-2.25" ]; then
-  echo ""
-  echo "Installing \`binutils\`"
-  echo ""
-  curl http://ftp.gnu.org/gnu/binutils/binutils-2.25.tar.gz > binutils-2.25.tar.gz
-  tar xfz binutils-2.25.tar.gz
-  rm binutils-2.25.tar.gz
-  mkdir -p build-binutils
-  cd build-binutils
-  ../binutils-2.25/configure --target=$TARGET --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror
-  make
-  make install
-fi
-
-# gcc
-cd "$HOME/src"
-
-if [ ! -d "gcc-5.3.0" ]; then
-  echo ""
-  echo "Installing \`gcc\`"
-  echo ""
-  curl -L http://ftpmirror.gnu.org/gcc/gcc-5.3.0/gcc-5.3.0.tar.bz2 > gcc-5.3.0.tar.bz2
-  tar jxf gcc-5.3.0.tar.bz2
-  rm gcc-5.3.0.tar.bz2
-  mkdir -p build-gcc
-  cd build-gcc
-  ../gcc-5.3.0/configure --target="$TARGET" --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers --with-gmp="$(brew --prefix gmp)" --with-mpfr="$(brew --prefix mpfr)" --with-mpc="$(brew --prefix libmpc)"
-  make all-gcc
-  make all-target-libgcc
-  make install-gcc
-  make install-target-libgcc
-fi
-
-# objconv
-
-cd "$HOME/src"
-
+#
 if [ ! -d "objconv" ]; then
   echo ""
   echo "Installing \`objconv\`"

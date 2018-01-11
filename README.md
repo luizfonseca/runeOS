@@ -36,4 +36,4 @@
 
 - `nasm multiboot_h.asm boot.asm`
 - `chmod +x script.sh && ./script.sh`
-- `$HOME/opt/bin/x86_64-pc-elf-ld --nmagic --output=kernel.bin --script=linker.ld multiboot_h.o boot.o`
+- `$HOME/opt/bin/x86_64-pc-elf-ld --nmagic --output=isofiles/boot/kernel.bin --script=linker.ld multiboot_h.o boot.o`
