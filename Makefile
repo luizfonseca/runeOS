@@ -27,4 +27,4 @@ build/rune_OS.iso: build/kernel.bin grub.cfg
 
 
 clean:
-	rm -rf build/
+	rm -rf build/*
