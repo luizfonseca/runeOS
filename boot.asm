@@ -19,6 +19,27 @@ start:
   ; point each page table level two entry to a page / loop
   mov ecx, 0 ; counter variable
 
+  ; size  - place  - thing
+  ; mov => 'move' thing into place
+  ;mov word [0xb8000], 0x1248 ; Puts letter H (0x0248) in the upper left (oxb8000)
+  ;mov word [0xb8002], 0x1265 ; Puts letter e (0x1265) in the upper left (0xb8002)
+  ;mov word [0xb8004], 0x126c ; Puts letter l (0x126c) in the upper left (0xb8004)
+  ;mov word [0xb8006], 0x126c ; Puts letter l (0x126c) in the upper left (oxb8006)
+  ;mov word [0xb8008], 0x126f ; Puts letter o (0x126f) in the upper left (oxb8008)
+  ;hlt ; halt
+
+
+.map_p2_table:
+  mov eax, 0x200000  ; 2MiB
+  mul ecx
+  or eax, 0b10000011
+  mov [p2_table + ecx * 8], eax
+
+
+  inc ecx
+  cmp ecx, 512
+  jne .map_p2_table
+
   ; move page table address to cr3
   mov eax, p4_table
   mov cr3, eax
@@ -40,26 +61,17 @@ start:
   or eax, 1 << 16
   mov cr0, eax
 
-  ; size  - place  - thing
-  ; mov => 'move' thing into place
-  ;mov word [0xb8000], 0x1248 ; Puts letter H (0x0248) in the upper left (oxb8000)
-  ;mov word [0xb8002], 0x1265 ; Puts letter e (0x1265) in the upper left (0xb8002)
-  ;mov word [0xb8004], 0x126c ; Puts letter l (0x126c) in the upper left (0xb8004)
-  ;mov word [0xb8006], 0x126c ; Puts letter l (0x126c) in the upper left (oxb8006)
-  ;mov word [0xb8008], 0x126f ; Puts letter o (0x126f) in the upper left (oxb8008)
-  ;hlt ; halt
+  lgdt [gdt64.pointer]
 
-.map_p2_table:
-  mov eax, 0x200000  ; 2MiB
-  mul ecx
-  or eax, 0b10000011
-  mov [p2_table + ecx * 8], eax
+  ; update selectors
+  mov ax, gdt64.data
+  mov ss, ax
+  mov ds, ax
+  mov es, ax
 
 
-  inc ecx
-  cmp ecx, 512
-  jne .map_p2_table
 
+  jmp gdt64.code:long_mode_start; jump to long_mode
 
 
 
@@ -82,11 +94,8 @@ p2_table:
 
 
 section .rodata
-
-
 gdt64:
   dq 0
-
 .code: equ $ - gdt64
   dq (1<<44) | (1<<47) | (1<<41) | (1<<43) | (1<<53)
 .data: equ $ - gdt64
@@ -97,4 +106,11 @@ gdt64:
 
 
 
-lgdt [gdt64.pointer]
+section .text
+bits 64
+
+long_mode_start:
+  mov rax, 0x2f592f412f4b2f4f
+  mov qword [0xb8230], rax
+
+  hlt
