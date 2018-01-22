@@ -3,3 +3,4 @@
 *.iso
 *.swp
 .DS_Store
+build/*

@@ -2,31 +2,29 @@ default: build
 
 .PHONY: default build run clean
 
-build: rune_OS.iso
+build: build/rune_OS.iso
 
-run: rune_OS.iso
-	qemu-system-x86_64 -cdrom rune_OS.iso
+run: build/rune_OS.iso
+	qemu-system-x86_64 -cdrom build/rune_OS.iso
 
-multiboot_h.o: multiboot_h.asm
-	nasm -f elf64 multiboot_h.asm
+build/multiboot_h.o: multiboot_h.asm
+	mkdir -p build
+	nasm -f elf64 multiboot_h.asm -o build/multiboot_h.o
 
-boot.o: boot.asm
-	nasm -f elf64 boot.asm
+build/boot.o: boot.asm
+	mkdir -p build
+	nasm -f elf64 boot.asm -o build/boot.o
 
-kernel.bin: multiboot_h.o boot.o linker.ld
-	ld -n -o kernel.bin -m elf_x86_64 -T linker.ld multiboot_h.o boot.o
+build/kernel.bin: build/multiboot_h.o build/boot.o linker.ld
+	ld -n -o build/kernel.bin -m elf_x86_64 -T linker.ld build/multiboot_h.o build/boot.o
 
 
-rune_OS.iso: kernel.bin grub.cfg
-	mkdir -p isofiles/boot/grub
-	cp grub.cfg isofiles/boot/grub
-	cp kernel.bin isofiles/boot
-	grub-mkrescue -o rune_OS.iso isofiles/
+build/rune_OS.iso: build/kernel.bin grub.cfg
+	mkdir -p build/isofiles/boot/grub
+	cp grub.cfg build/isofiles/boot/grub
+	cp build/kernel.bin build/isofiles/boot
+	grub-mkrescue -o build/rune_OS.iso build/isofiles/
 
 
 clean:
-	rm -f multiboot_h.o
-	rm -f boot.o
-	rm -f kernel.bin
-	rm -rf isofiles/
-	rm -f rune_OS.iso
+	rm -rf build/
